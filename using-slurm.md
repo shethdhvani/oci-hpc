@@ -43,5 +43,5 @@ sleep 30
 To execute your job on particular nodes, use this command
   ```sbatch -w <nodelist> <script>```
 
-To exclude certain nodes from running your job
+To exclude certain nodes from running your job, use this command
   ```sbatch --exclude=<nodelist> <script>```
