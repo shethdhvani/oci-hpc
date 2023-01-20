@@ -5,13 +5,17 @@ Below are some commands that you would need to run your job using slurm.
 * squeue --> Determine what jobs exist on the system
 
 * scontrol --> Get more detailed information about nodes, partitions, jobs, job steps, and configuration
-Example: scontrol show partition
+
+Example: ```scontrol show partition```
 
 * srun --> Create a resource allocation and launch the tasks for a job. Depending upon the MPI implementation used, MPI jobs may also be launched in this manner. Refer MPI for more MPI-specific information.
-Example: srun -N3 -l /bin/hostname
+
+Example: ```srun -N3 -l /bin/hostname```
+
 In this example we execute /bin/hostname on three nodes (-N3) and include task numbers on the output (-l). The default partition will be used. One task per node will be used by default.
 
 * sbatch <script> --> Submit a job script for later execution. The script will typically contain one or more srun commands to launch parallel tasks.
+
 Example script
 ```
 #!/bin/sh
