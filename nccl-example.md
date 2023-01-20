@@ -6,6 +6,8 @@ var_UCX_NET_DEVICES=mlx5_4:1
 var_NCCL_IB_HCA="=mlx5_0,mlx5_2,mlx5_6,mlx5_8,mlx5_10,mlx5_12,mlx5_14,mlx5_16,mlx5_1,mlx5_3,mlx5_7,mlx5_9,mlx5_11,mlx5_13,mlx5_15,mlx5_17"
 ```
 
+### NOTE: ```-x NCCL_ALGO=Ring``` should only be used when running the NCCL test. For your regular workloads, please don't add that parameter.
+
 ### Example nccl_run_allreduce.sbatch
 
 ```
@@ -63,4 +65,3 @@ fi
   -x NCCL_IB_HCA="${var_NCCL_IB_HCA}" \
   --np $((SLURM_NNODES*SLURM_NTASKS_PER_NODE))  --rankfile $ORDEREDRANKMACHINEFILE  /home/opc/nccl-tests/build/all_reduce_perf -b1G -e10G -i$((1024*1024*1024*9)) -n 100
 ```
-NOTE: ```-x NCCL_ALGO=Ring``` should only be used when running the NCCL test. For your regular workloads, please don't add that parameter.
