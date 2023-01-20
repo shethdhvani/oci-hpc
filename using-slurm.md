@@ -40,6 +40,8 @@ cat $MACHINEFILE
 sleep 30
 ```
 
+To execute your job on particular nodes, use this command
+  ```sbatch -w <nodelist> <script>```
 
-
-
+To exclude certain nodes from running your job
+  ```sbatch --exclude=<nodelist> <script>```
