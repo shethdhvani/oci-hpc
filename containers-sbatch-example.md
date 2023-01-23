@@ -31,3 +31,23 @@ srun --gpus-per-node=8 \
      --container-image="ubuntu:latest" \
      --container-mounts="$LOCAL_MPI:$LOCAL_MPI" \
      hostname
+```
+
+### If you need to build your own image and use that, then
+
+* Use ```docker save``` to save the image to a shared location (example --> /nfs/cluster or /nfs/scratch) and then use ```docker load``` command to import that image to all nodes.
+
+### Use the above docker image to run
+1. Go to any compute node as docker is installed on all compute nodes.
+2. Run ```docker image ls```. This will show the list of images and you should see your image.
+3. Go to a shared directory that's shared between all nodes.
+4. Run ```ENROOT_SQUASH_OPTIONS="-b 262144" enroot import dockerd://<image-name>``` (ENROOT_SQUASH_OPTIONS="-b 262144" is needed for large container sizes). A .sqsh file is created.
+5. You need to have "pyxis_" before the name as the container name, as this is what is needed for slurm to work with pyxis and enroot.
+```enroot create -n pyxis_<name> <full path to .sqsh file>```
+6. Test on the node you are on. Make sure you pass just the "name" that you used in the previous command to --container-name and not add pyxis_ to it. When you use enroot + pyxis, slurm will automatically add that. 
+Example --> ```srun -l --container-name=<name> --container-image=<path to .sqsh file> --nodelist=compute-permanent-node-1 bash -c "cat /etc/*rel*"```
+7. Test on two nodes. 
+Example --> ```srun -l --container-name=<name> --container-image=<path to .sqsh file> --nodelist=compute-permanent-node-[1,2] bash -c "cat /etc/*rel*"```
+8. Test on all nodes. 
+Example --> ```srun -l --container-name=<name> --container-image=<path to .sqsh file> --nodelist=compute-permanent-node-[1,2,3,4,5,6,7,8,9,10] bash -c "cat /etc/*rel*"```
+
